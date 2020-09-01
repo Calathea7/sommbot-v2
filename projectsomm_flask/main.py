@@ -86,7 +86,7 @@ def user_profile():
 
     if 'email' in session:
         profile = crud.get_user_profile_info(email=session['email'])
-        print(profile)
+        # print(profile)
     else:
         profile = []
 

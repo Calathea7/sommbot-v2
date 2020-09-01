@@ -47,6 +47,14 @@ class Recommendation(db.Model):
 
   user = db.relationship('User')
 
+  def as_dict(self):
+        return {
+            'id': self.id,
+            'rec_date': self.rec_date,
+            'fav_rec': self.fav_rec,
+            'rec_info': self.rec_info,
+            'user_email': self.user_email
+        }
 
   # def __repr__(self):
   #   return f'<Recommendation id={self.id} rec_date={self.rec_date} fav_rec={self.fav_rec}>'
