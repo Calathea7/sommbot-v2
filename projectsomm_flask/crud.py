@@ -42,7 +42,15 @@ def save_recommendation(rec_info, user_email):
 
 def all_wines():
 
-  return Wine.query.all()
+  return Wine.query.limit(10).all()
+
+
+def save_latlng_for_wines(lat, lng, id):
+
+  coord = Wine(lat=lat, lng=lng, id=id)
+
+  db.session.add(coord)
+  db.session.commit()
 
 
 def get_wine_by_year(year):
@@ -84,5 +92,5 @@ def get_wine_by_filters(min_year, max_year, min_price, max_price, descriptors):
 
   # rec_date=datetime.utcnow().timestamp()
 if __name__ == '__main__':
-    from server import app
+    from main import app
     connect_to_db(app)
