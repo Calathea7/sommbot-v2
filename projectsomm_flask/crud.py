@@ -42,14 +42,16 @@ def save_recommendation(rec_info, user_email):
 
 def all_wines():
 
-  return Wine.query.limit(10).all()
+  return db.session.query(Wine.province, Wine.appelation).filter(Wine.country != 'US', Wine.lat == None).distinct().all()
 
+def save_latlng_for_wines(lat, lng, province, appelation):
 
-def save_latlng_for_wines(lat, lng, id):
+  coords = db.session.query(Wine).filter(Wine.province==province, Wine.appelation==appelation).all()
+  for coord in coords:
+    coord.lat = lat
+    coord.lng = lng
 
-  coord = Wine(lat=lat, lng=lng, id=id)
-
-  db.session.add(coord)
+  # db.session.add(coord)
   db.session.commit()
 
 
