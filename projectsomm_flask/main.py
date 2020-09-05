@@ -16,71 +16,66 @@ def Homepage():
     return render_template('index.html')
 
 
-# TODO: POST /api/user
 @app.route('/api/create-account', methods=["POST"])
 def create_account():
 
-  data = request.get_json()
+    data = request.get_json()
 
-  email = data["email"]
-  password = data["password"]
-  name = data["name"]
+    email = data["email"]
+    password = data["password"]
+    name = data["name"]
 
-  user = crud.get_user_by_email(email=email)
+    user = crud.get_user_by_email(email=email)
 
-  if user:
-    status = 'error'
-    message = 'Account with this email already exists. Please try logging in.'
+    if user:
+        status = 'error'
+        message = 'Account with this email already exists. Please try logging in.'
 
-  else:
-    crud.create_user(email=email, password=password, name=name)
-    status = 'success'
-    message = 'Thank you for creating an account. Please log in.'
+    else:
+        crud.create_user(email=email, password=password, name=name)
+        status = 'success'
+        message = 'Thank you for creating an account. Please log in.'
 
-  return jsonify({'status': status, 'message': message})
+    return jsonify({'status': status, 'message': message})
 
 
-# POST /api/user/login
-# @ app.route('login
-# @user_loader', methods=["POST"])
 @app.route('/api/login', methods=["POST"])
 def login_user():
 
-  data = request.get_json()
+    data = request.get_json()
 
-  session['email'] = data['email']
-  email = data['email']
-  password = data['password']
+    session['email'] = data['email']
+    email = data['email']
+    password = data['password']
 
-  user = crud.get_user_by_email_password(email=email, password=password)
+    user = crud.get_user_by_email_password(email=email, password=password)
 
-  if user:
-    status = 'success'
-    message = 'You have successfully logged in!'
+    if user:
+        status = 'success'
+        message = 'You have successfully logged in!'
 
-  else:
-    status = 'error'
-    message = 'Your email or password are incorrect'
+    else:
+        status = 'error'
+        message = 'Your email or password are incorrect'
 
-  return jsonify({'status': status, 'message': message})
+    return jsonify({'status': status, 'message': message})
 
 
 @app.route('/api/logout', methods=["GET", "POST"])
 def logout_user():
 
-  if 'email' in session:
-    session.pop('email', None)
-    status = 'success'
-    message = 'You have successfully logged out!'
+    if 'email' in session:
+        session.pop('email', None)
+        status = 'success'
+        message = 'You have successfully logged out!'
 
-  else:
-    status = 'error'
-    message = 'You were not logged in'
+    else:
+        status = 'error'
+        message = 'You were not logged in'
 
-  return jsonify({'status': status, 'message': message})
+    return jsonify({'status': status, 'message': message})
 
 
-# TODO: GET /api/user/<user_id>
 @app.route('/api/user-profile')
 def user_profile():
 
@@ -92,49 +87,56 @@ def user_profile():
 
     return jsonify(profile)
 
+
+# @app.route('/api/latlng-wines')
+# def wine_markers():
+
+
+
+
 @app.route('/api/wine/save-rec', methods=["POST"])
 def save_rec():
 
-  data = request.get_json()
-  rec_info = data["rec_info"]
+    data = request.get_json()
+    rec_info = data["rec_info"]
 
-  if 'email' in session:
-    email = session['email']
-    rec = crud.save_recommendation(rec_info=rec_info, user_email=email)
-    if rec:
-      status = 'success'
-      message = 'Recommendation has been saved to your profile!'
+    if 'email' in session:
+        email = session['email']
+        rec = crud.save_recommendation(rec_info=rec_info, user_email=email)
+        if rec:
+            status = 'success'
+            message = 'Recommendation has been saved to your profile!'
 
+        else:
+            status = 'error'
+            message = 'Something went wrong. Please try saving again.'
     else:
-      status = 'error'
-      message = 'Something went wrong. Please try saving again.'
-  else:
-    status = 'error'
-    message = 'Please Log In first'
+        status = 'error'
+        message = 'Please Log In first'
 
-  return jsonify({'status': status, 'message': message})
+    return jsonify({'status': status, 'message': message})
 
 
-# sTODO: GET /api/wine/recommendation?min_year=<>&max_year=<>
 @app.route('/api/recommendation', methods=["POST"])
 def recommendation():
   # print("hitting the rec route \n \n \n")
   # print(request.get_json())
 
-  data = request.get_json()
+    data = request.get_json()
 
-  min_year = data["min_year"]
-  max_year = data["max_year"]
-  min_price = data["min_price"]
-  max_price = data["max_price"]
-  descriptors = data["descriptor"]
+    min_year = data["min_year"]
+    max_year = data["max_year"]
+    min_price = data["min_price"]
+    max_price = data["max_price"]
+    descriptors = data["descriptor"]
 
-  wines = crud.get_wine_by_filters(min_year, max_year, min_price, max_price, descriptors)
+    wines = crud.get_wine_by_filters(
+        min_year, max_year, min_price, max_price, descriptors)
 
-  results = [wine[0] for wine in wines]
+    results = [wine[0] for wine in wines]
 
+    return jsonify(results)
 
-  return jsonify(results)
 
 # ideas of API calls
 # GET /api/wine/<wine_id>

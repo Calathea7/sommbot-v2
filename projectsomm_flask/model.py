@@ -7,20 +7,20 @@ db = SQLAlchemy()
 
 class User(db.Model):
 
-  __tablename__ = 'users'
+    __tablename__ = 'users'
 
-  name = db.Column(db.String(50),
-                   nullable=False)
+    name = db.Column(db.String(50),
+                    nullable=False)
 
-  email = db.Column(db.String(50),
-                    primary_key=True,
-                    nullable=False,
-                    unique=True)
+    email = db.Column(db.String(50),
+                      primary_key=True,
+                      nullable=False,
+                      unique=True)
 
-  password = db.Column(db.String(50),
-                      nullable=False)
+    password = db.Column(db.String(50),
+                        nullable=False)
 
-  rec = db.relationship('Recommendation')
+    rec = db.relationship('Recommendation')
 
   # def __repr__(self):
   #   return f'<User name={self.name} email={self.email}>'
@@ -28,71 +28,71 @@ class User(db.Model):
 
 class Recommendation(db.Model):
 
-  __tablename__ = 'recs'
+    __tablename__ = 'recs'
 
-  id = db.Column(db.Integer,
-                  autoincrement = True,
-                  primary_key = True)
+    id = db.Column(db.Integer,
+                    autoincrement = True,
+                    primary_key = True)
 
-  rec_date = db.Column(db.DateTime,
-                    server_default=func.now(),
-                    nullable=False)
+    rec_date = db.Column(db.DateTime,
+                      server_default=func.now(),
+                      nullable=False)
 
-  fav_rec = db.Column(db.Boolean)
+    fav_rec = db.Column(db.Boolean)
 
-  rec_info = db.Column(db.String)
+    rec_info = db.Column(db.ARRAY(db.String))
 
-  user_email = db.Column(db.String,
-                          db.ForeignKey('users.email'))
+    user_email = db.Column(db.String,
+                            db.ForeignKey('users.email'))
 
-  user = db.relationship('User')
+    user = db.relationship('User')
 
-  def as_dict(self):
-        return {
-            'id': self.id,
-            'rec_date': self.rec_date,
-            'fav_rec': self.fav_rec,
-            'rec_info': self.rec_info,
-            'user_email': self.user_email
-        }
+    def as_dict(self):
+          return {
+              'id': self.id,
+              'rec_date': self.rec_date,
+              'fav_rec': self.fav_rec,
+              'rec_info': self.rec_info,
+              'user_email': self.user_email
+          }
 
   # def __repr__(self):
   #   return f'<Recommendation id={self.id} rec_date={self.rec_date} fav_rec={self.fav_rec}>'
 
 class Wine(db.Model):
 
-  __tablename__ = 'wines'
+    __tablename__ = 'wines'
 
-  id = db.Column(db.String,
-                    primary_key=True,
-                    nullable=False,
-                    unique=True)
+    id = db.Column(db.String,
+                      primary_key=True,
+                      nullable=False,
+                      unique=True)
 
-  wine_title = db.Column(db.String)
+    wine_title = db.Column(db.String)
 
-  variety = db.Column(db.String)
+    variety = db.Column(db.String)
 
-  year = db.Column(db.String)
+    year = db.Column(db.String)
 
-  winery = db.Column(db.String)
+    winery = db.Column(db.String)
 
-  country = db.Column(db.String)
+    country = db.Column(db.String)
 
-  province = db.Column(db.String)
+    province = db.Column(db.String)
 
-  appelation = db.Column(db.String)
+    appelation = db.Column(db.String)
 
-  points = db.Column(db.Integer)
+    points = db.Column(db.Integer)
 
-  price = db.Column(db.Float)
+    price = db.Column(db.Float)
 
-  lat = db.Column(db.Float)
+    lat = db.Column(db.Float)
 
-  lng = db.Column(db.Float)
+    lng = db.Column(db.Float)
 
-  dsrwine = db.relationship('DsrWine')
+    dsrwine = db.relationship('DsrWine')
 
-  descriptors = db.relationship('Descriptor', secondary = 'dsrwines')
+    descriptors = db.relationship('Descriptor', secondary = 'dsrwines')
 
 
 
@@ -102,20 +102,20 @@ class Wine(db.Model):
 
 class DsrWine(db.Model):
 
-  __tablename__ = 'dsrwines'
+    __tablename__ = 'dsrwines'
 
-  id = db.Column(db.Integer,
-                  autoincrement = True,
-                  primary_key = True)
+    id = db.Column(db.Integer,
+                    autoincrement = True,
+                    primary_key = True)
 
-  wine_id = db.Column(db.String,
-                        db.ForeignKey('wines.id'))
+    wine_id = db.Column(db.String,
+                          db.ForeignKey('wines.id'))
 
-  dsr_id = db.Column(db.Integer,
-                      db.ForeignKey('descriptors.id'))
+    dsr_id = db.Column(db.Integer,
+                        db.ForeignKey('descriptors.id'))
 
-  wine = db.relationship('Wine')
-  descriptor = db.relationship('Descriptor')
+    wine = db.relationship('Wine')
+    descriptor = db.relationship('Descriptor')
 
 
   # def __repr__(self):
@@ -123,18 +123,18 @@ class DsrWine(db.Model):
 
 class Descriptor(db.Model):
 
-  __tablename__ = 'descriptors'
+    __tablename__ = 'descriptors'
 
-  id = db.Column(db.Integer,
-                  primary_key=True,
-                  autoincrement=True)
+    id = db.Column(db.Integer,
+                    primary_key=True,
+                    autoincrement=True)
 
-  name = db.Column(db.String,
-                    nullable = False,
-                    unique = True)
+    name = db.Column(db.String,
+                      nullable = False,
+                      unique = True)
 
-  dsrwine = db.relationship('DsrWine')
-  wines = db.relationship('Wine', secondary = 'dsrwines')
+    dsrwine = db.relationship('DsrWine')
+    wines = db.relationship('Wine', secondary = 'dsrwines')
 
   # def __repr__(self):
   #   return f'<Descriptor name={self.name}>'

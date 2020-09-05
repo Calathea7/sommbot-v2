@@ -7,7 +7,7 @@ gmaps = googlemaps.Client(key='AIzaSyBTVa4w0Bjwaq6azDxGnnPoZhZ7lgcM-L8')
 
 model.connect_to_db(main.app)
 
-wines = crud.all_wines()
+wines = crud.all_wines_for_latlng()
 for wine in wines:
     province = wine.province
     appelation = wine.appelation
