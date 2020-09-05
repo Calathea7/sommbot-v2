@@ -84,6 +84,11 @@ def save_latlng_for_wines(lat, lng, province, appelation):
     db.session.commit()
 
 
+def get_wine_by_title(title):
+
+    return Wine.query.filter(Wine.wine_title == title).all()
+
+
 def get_wine_by_year(year):
 
     return Wine.query.filter(Wine.year == year).all()
