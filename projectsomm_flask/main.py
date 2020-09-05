@@ -91,23 +91,42 @@ def user_profile():
 @app.route('/api/latlng-wines')
 def wine_markers():
 
-    data = request.get_json()
+    if 'email' in session:
+        profile_data = crud.get_user_profile_info(email=session['email'])
+
 
     wines = []
 
-    for i in range(len(data)):
+    for i in range(len(profile_data)):
         wines.append(data[i][0][0])
         wines.append(data[i][0][1])
         wines.append(data[i][0][2])
         wines.append(data[i][0][3])
         wines.append(data[i][0][4])
 
+    wines_data = []
+
     for wine in wines:
+
         output = crud.get_wine_by_title(wine)
-        lat = output.lat
-        lng = output.lng
+        print("output:", output)
+
+        wines_data.append(
+            {
+                output.wine_title: {
+                    'lat': output.lat,
+                    'lng': output.lng,
+                    'country': output.country,
+                    'winery': output.winery,
+                    'points': output.points,
+                    'price': output.price,
+                    'variety': output.variety
+                }}
+        )
         # refractor output into a dictionary
         # or save each latlng in a dictionary with wine title as key
+    print("wines_data:", wines_data)
+    return jsonify(wines_data)
 
 
 @app.route('/api/wine/save-rec', methods=["POST"])
