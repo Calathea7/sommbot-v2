@@ -93,16 +93,18 @@ def wine_markers():
 
     if 'email' in session:
         profile_data = crud.get_user_profile_info(email=session['email'])
-
+    print("profile_data:", profile_data)
 
     wines = []
 
     for i in range(len(profile_data)):
-        wines.append(data[i][0][0])
-        wines.append(data[i][0][1])
-        wines.append(data[i][0][2])
-        wines.append(data[i][0][3])
-        wines.append(data[i][0][4])
+        wines.append(profile_data[i][0])
+        print("first_append:",profile_data[i][0] )
+        wines.append(profile_data[i][1])
+        wines.append(profile_data[i][2])
+        wines.append(profile_data[i][3])
+        wines.append(profile_data[i][4])
+    print("wines_list:", wines)
 
     wines_data = []
 
@@ -113,15 +115,15 @@ def wine_markers():
 
         wines_data.append(
             {
-                output.wine_title: {
-                    'lat': output.lat,
-                    'lng': output.lng,
-                    'country': output.country,
-                    'winery': output.winery,
-                    'points': output.points,
-                    'price': output.price,
-                    'variety': output.variety
-                }}
+                'wine_title': output[0].wine_title,
+                'lat': output[0].lat,
+                'lng': output[0].lng,
+                'country': output[0].country,
+                'winery': output[0].winery,
+                'points': output[0].points,
+                'price': output[0].price,
+                'variety': output[0].variety
+                }
         )
         # refractor output into a dictionary
         # or save each latlng in a dictionary with wine title as key
