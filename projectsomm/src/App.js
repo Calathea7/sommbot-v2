@@ -198,7 +198,7 @@ function MapBuilder(props) {
       ref={mapRef}
       style={{ width: '400px', height: '400px' }}
     >
-    <WineMarkers map = {myMap} />
+    {/* <WineMarkers map = {myMap} /> */}
     </div>
     {/* <button onClick={createMarker}>Button</button> */}
     </div>
@@ -234,7 +234,7 @@ function UserProfile(props) {
       <ul>
         {savedRecs}
       </ul>
-      {/* <MapBuilder/> */}
+      <MapBuilder/>
       {/* <WineMarkers data={wineData}/> */}
     </div>
   )
