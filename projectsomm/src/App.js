@@ -137,43 +137,53 @@ function Login(props) {
 //   )
 // }
 
-// function MapContainer(props) {
-//   const [myMap, setMyMap] = React.useState();
-//   const [options, setOptions] = React.useState({
-//     center: { lat: 38.297539, lng: -122.286865},
-//     zoom: 10
-//   });
+function MapContainer(props) {
+  // const [myMap, setMyMap] = React.useState();
+  const [options, setOptions] = React.useState({
+    center: { lat: 38.297539, lng: -122.286865},
+    zoom: 10
+  });
+  // const [markers, setMarkers] = React.useState([]);
 
-//   const mapDimensions = {
-//     width: '200px',
-//     height: '200px'
-//   }
+  const mapDimensions = {
+    width: '200px',
+    height: '200px'
+  }
 
-//   // const MemoMap = React.useCallback(
-//   //   <MapBuilder
-//   //     map={myMap}
-//   //     setMap={setMyMap}
-//   //     mapDimensions={mapDimensions}
-//   //   />,
-//   //   [options]
-//   // )
+  function placeMarkers(map, data) {
+    for (let i = 0; i < data.length; i++) {
+      const wineMarker = new window.google.maps.Marker({
+        map: map,
+        position: {
+          lat: parseFloat(data[i]['lat']),
+          lng: parseFloat(data[i]['lng'])
+        },
+        title: data[i]['wine_title'],
+      })
+    }
+  }
 
-//   return (
-//     <div id = "google-map-container">
-//       <MapBuilder options={{ center: {lat: 38.297539, lng: -122.286865}, zoom: 10 }} />
-//       {MemoMap}
-//       <WineMarkers map={myMap}/>
-//     </div>
-//   )
-// }
+  return (
+    <div id = "google-map-container">
+      {/* <MapBuilder options={{ center: {lat: 38.297539, lng: -122.286865}, zoom: 10 }} /> */}
+      <MapBuilder
+      options={options}
+      mapDimensions={mapDimensions}
+      onMountProps={props.data}
+      onMount={placeMarkers}
+    />
+      {/* <WineMarkers map={myMap} data={props.data}/> */}
+    </div>
+  )
+}
 
 
 function MapBuilder(props) {
-  const mapRef = React.useRef();
   const [myMap, setMyMap] = React.useState();
   // const [marker, setMarker] = React.useState();
   // const createMarker = () => new window.google.maps.Marker({ position: options.center, map: props.myMap });
   const options = { center: {lat: 38.297539, lng: -122.286865}, zoom: 10 };
+  const mapRef = React.useRef();
 
   React.useEffect(() => {
     const createMap = () => setMyMap(new window.google.maps.Map(mapRef.current, options));
@@ -182,25 +192,23 @@ function MapBuilder(props) {
       const googleMapScript = document.createElement('script');
       googleMapScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBTVa4w0Bjwaq6azDxGnnPoZhZ7lgcM-L8&libraries=places';
       document.head.append(googleMapScript);
-      googleMapScript.addEventListener('load', () => {createMap()});
+      googleMapScript.addEventListener('load', createMap);
       return () => googleMapScript.removeEventListener('load', createMap);
     } else {
       createMap();
     }
   }, []);
 
+  if (myMap && typeof props.onMount === `function`){props.onMount(myMap, props.onMountProps)}
+
   // options.center.lat, options.center.lng
 
   return (
-    <div>
     <div
       id="google-map-div"
       ref={mapRef}
       style={{ width: '400px', height: '400px' }}
     >
-    {/* <WineMarkers map = {myMap} /> */}
-    </div>
-    {/* <button onClick={createMarker}>Button</button> */}
     </div>
   )
 }
@@ -217,7 +225,6 @@ function UserProfile(props) {
     .then(res => res.json())
     .then((data) => {
       const recs = []
-      console.log("wines_data:", data)
       // console.log(data.length)
       // console.log("wine_title:", data[0]['wine_title'])
       for (let i = 0; i < data.length; i++) {
@@ -234,44 +241,50 @@ function UserProfile(props) {
       <ul>
         {savedRecs}
       </ul>
-      <MapBuilder/>
-      {/* <WineMarkers data={wineData}/> */}
+      <MapContainer data={wineData}/>
     </div>
   )
 }
 
 
-function WineMarkers(props) {
-  const [markers, setMarkers] = React.useState([]);
-  const data = props.data
-  console.log(data)
-  placeMarkers(data)
+// function WineMarkers(props) {
+//   const [markers, setMarkers] = React.useState([]);
 
-  function cleanMarkers() {
-    for (const marker of markers) {
-      marker.setMyMap(null);
-    }
-    setMarkers([])
-  }
+//   function cleanMarkers() {
+//     console.log("just double checking the clear")
+//     for (const marker of markers) {
+//       marker.setMyMap(null);
+//     }
+//     setMarkers([])
+//   }
 
-  function placeMarkers(data) {
-    cleanMarkers();
-    const allMarkers = []
-    for (let i = 0; i < data.length; i++) {
-      const wineMarker = new window.google.maps.Marker({
-        map: props.map,
-        position: {
-          lat: data[i]['lat'],
-          lng: data[i]['lng']
-        },
-        title: data[i]['wine_title'],
-      })
-      allMarkers.push(wineMarker)
-    }
-    setMarkers(allMarkers)
-  }
-  return null;
-}
+//   function placeMarkers(data) {
+//     // cleanMarkers();
+//     const allMarkers = []
+//     for (let i = 0; i < data.length; i++) {
+//       const wineMarker = new window.google.maps.Marker({
+//         map: props.map,
+//         position: {
+//           lat: parseFloat(data[i]['lat']),
+//           lng: parseFloat(data[i]['lng'])
+//         },
+//         title: data[i]['wine_title'],
+//       })
+//       allMarkers.push(wineMarker)
+//     }
+//     setMarkers(allMarkers)
+//   }
+
+//   React.useEffect(() => {
+//     console.log("hi from WineMarkers 1")
+//     console.log(props.data)
+//     placeMarkers(props.data)
+//     // fetch('/api/user-profile')
+//   }, [props.data])
+
+
+//   return null;
+// }
 
 
 function PostRecItem(props) {
