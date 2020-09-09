@@ -1,15 +1,22 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import Select from 'react-select';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Navbar from 'react-bootstrap/Navbar';
+import { Nav } from 'react-bootstrap';
 
 function Homepage() {
     return <div> Welcome to my site </div>
 }
 
+
 function About() {
     return <div> Wine recommendation app </div>
 }
+
 
 function CreateAccount(props) {
 
@@ -63,6 +70,7 @@ function CreateAccount(props) {
     </form>
   )
 }
+
 
 function Login(props) {
 
@@ -120,34 +128,15 @@ function Login(props) {
 }
 
 
-
-// function Selector(props) {
-
-//   function onChange(e) {
-//     this.value = e.target.value
-//   }
-//   return (
-//     <div>
-//       <select onChange={self.onChange}>
-//         {props.optionsList.map(option => {
-//           return <option value={option}> option </option>;
-//         }
-//       </select>
-//     </div>
-//   )
-// }
-
 function MapContainer(props) {
-  // const [myMap, setMyMap] = React.useState();
   const [options, setOptions] = React.useState({
     center: { lat: 38.297539, lng: -122.286865},
     zoom: 10
   });
-  // const [markers, setMarkers] = React.useState([]);
 
   const mapDimensions = {
     width: '200px',
-    height: '200px'
+    height: '800px'
   }
 
   function placeMarkers(map, data) {
@@ -165,14 +154,12 @@ function MapContainer(props) {
 
   return (
     <div id = "google-map-container">
-      {/* <MapBuilder options={{ center: {lat: 38.297539, lng: -122.286865}, zoom: 10 }} /> */}
       <MapBuilder
       options={options}
       mapDimensions={mapDimensions}
       onMountProps={props.data}
       onMount={placeMarkers}
     />
-      {/* <WineMarkers map={myMap} data={props.data}/> */}
     </div>
   )
 }
@@ -180,14 +167,12 @@ function MapContainer(props) {
 
 function MapBuilder(props) {
   const [myMap, setMyMap] = React.useState();
-  // const [marker, setMarker] = React.useState();
-  // const createMarker = () => new window.google.maps.Marker({ position: options.center, map: props.myMap });
   const options = { center: {lat: 38.297539, lng: -122.286865}, zoom: 10 };
   const mapRef = React.useRef();
 
   React.useEffect(() => {
     const createMap = () => setMyMap(new window.google.maps.Map(mapRef.current, options));
-    // const createMarker = () => new window.google.maps.Marker({ position: options.center, map: myMap });
+
     if (!window.google) {
       const googleMapScript = document.createElement('script');
       googleMapScript.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBTVa4w0Bjwaq6azDxGnnPoZhZ7lgcM-L8&libraries=places';
@@ -200,8 +185,6 @@ function MapBuilder(props) {
   }, []);
 
   if (myMap && typeof props.onMount === `function`){props.onMount(myMap, props.onMountProps)}
-
-  // options.center.lat, options.center.lng
 
   return (
     <div
@@ -247,46 +230,6 @@ function UserProfile(props) {
 }
 
 
-// function WineMarkers(props) {
-//   const [markers, setMarkers] = React.useState([]);
-
-//   function cleanMarkers() {
-//     console.log("just double checking the clear")
-//     for (const marker of markers) {
-//       marker.setMyMap(null);
-//     }
-//     setMarkers([])
-//   }
-
-//   function placeMarkers(data) {
-//     // cleanMarkers();
-//     const allMarkers = []
-//     for (let i = 0; i < data.length; i++) {
-//       const wineMarker = new window.google.maps.Marker({
-//         map: props.map,
-//         position: {
-//           lat: parseFloat(data[i]['lat']),
-//           lng: parseFloat(data[i]['lng'])
-//         },
-//         title: data[i]['wine_title'],
-//       })
-//       allMarkers.push(wineMarker)
-//     }
-//     setMarkers(allMarkers)
-//   }
-
-//   React.useEffect(() => {
-//     console.log("hi from WineMarkers 1")
-//     console.log(props.data)
-//     placeMarkers(props.data)
-//     // fetch('/api/user-profile')
-//   }, [props.data])
-
-
-//   return null;
-// }
-
-
 function PostRecItem(props) {
   return <li>{props.rec}</li>
 }
@@ -302,7 +245,6 @@ function Recommendation(props) {
   const [showResult, setShowResult] = React.useState(false)
   const [recInfo, setRecInfo] = React.useState([])
 
-  // const descriptors = ['cherry', 'strawberry', 'mushroom','perfumed', 'ripe', 'oak', 'juicy']
   const options = [
     {value: 'strawberry', label: 'strawberry'},
     {value: 'cherry', label: 'cherry'},
@@ -311,6 +253,46 @@ function Recommendation(props) {
     {value: 'ripe', label: 'ripe'},
     {value: 'oak', label: 'oak'},
     {value: 'juicy', label: 'juicy'},
+    {value: 'mineral', label: 'mineral'},
+    {value: 'pineapple', label: 'pineapple'},
+    {value: 'lime', label: 'lime'},
+    {value: 'slate', label: 'slate'},
+    {value: 'peach', label: 'peach'},
+    {value: 'apple', label: 'apple'},
+    {value: 'pear', label: 'pear'},
+    {value: 'violet', label: 'violet'},
+    {value: 'blackberry', label: 'blackberry'},
+    {value: 'apricot', label: 'apricot'},
+    {value: 'cinnamon', label: 'cinnamon'},
+    {value: 'almond', label: 'almond'},
+    {value: 'honeysuckle', label: 'honeysuckle'},
+    {value: 'melon', label: 'melon'},
+    {value: 'rose', label: 'rose'},
+    {value: 'asparagus', label: 'asparagus'},
+    {value: 'pepper', label: 'pepper'},
+    {value: 'vanilla', label: 'vanilla'},
+    {value: 'black', label: 'black'},
+    {value: 'red', label: 'red'},
+    {value: 'plum', label: 'plum'},
+    {value: 'papaya', label: 'papaya'},
+    {value: 'banana', label: 'banana'},
+    {value: 'honey', label: 'honey'},
+    {value: 'butter', label: 'butter'},
+    {value: 'toasted', label: 'toasted'},
+    {value: 'chalk', label: 'chalk'},
+    {value: 'vanilla', label: 'vanilla'},
+    {value: 'caramel', label: 'caramel'},
+    {value: 'licorice', label: 'licorice'},
+    {value: 'leather', label: 'leather'},
+    {value: 'prune', label: 'prune'},
+    {value: 'game', label: 'game'},
+    {value: 'cigar', label: 'cigar'},
+    {value: 'rosemary', label: 'rosemary'},
+    {value: 'coffee', label: 'coffee'},
+    {value: 'clove', label: 'clove'},
+    {value: 'tobacco', label: 'tobacco'},
+    {value: 'chocolate', label: 'chocolate'},
+    {value: 'cedar', label: 'cedar'}
   ]
 
   const filterCheckbox = (e) => {
@@ -385,7 +367,6 @@ function Recommendation(props) {
           <div>
             Please pick your year of production range(optional):
             Min:
-            {/* <Selector options=[1970, 1980, 1990, 2000] id="min-year" /> */}
             <select value={minYear} onChange={(e) => setMinYear(e.target.value)} id="min-year" name="min-year">
               <option value="1970">1970</option>
               <option value="1980">1980</option>
@@ -451,27 +432,48 @@ function App() {
   return (
       <Router>
         <div>
-          <nav>
-            <ul>
-              <li>
-                  <Link to="/"> Home </Link>
-              </li>
-              <li>
-                  <Link to="/about"> About </Link>
-              </li>
-              <li>
-                  <Link to="/login"> Login </Link>
-              </li>
-              <li>
-                  <Link to="/profile"> Profile </Link>
-              </li>
-              <li>
-                  <Link to="/create-account"> Create Account </Link>
-              </li>
-              <li>
-                  <Link to="/recommendation"> Wine Recommendation </Link>
-              </li>
-            </ul>
+          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <a className="navbar-brand" href="/">
+            <img src={"../public/Wine-o.png"} width="30" height="30" class="d-inline-block align-top" alt=""/>
+              SommBot
+            </a>
+            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul className="navbar-nav mr-auto">
+                <li className="nav-item active">
+                  <a className="nav-link"><span className="sr-only">(current)
+                    <Link to="/"> Home </Link>
+                  </span></a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link">
+                    <Link to="/about" className="nav-item"> About </Link>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link">
+                    <Link to="/login"> Login </Link>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link">
+                    <Link to="/profile" > Profile </Link>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link">
+                    <Link to="/create-account"> Create Account </Link>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link">
+                    <Link to="/recommendation"> Wine Recommendation </Link>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </nav>
           <Switch>
             <Route path="/about">
@@ -494,10 +496,21 @@ function App() {
             </Route>
 
           </Switch>
-        </div>
+          </div>
       </Router>
     );
 
 }
 
 export default App;
+
+{/* <Navbar bg="light" variant="light">
+<Navbar.Brand href='/'>SommBot</Navbar.Brand>
+<Nav className="mr-auto">
+  <Nav.Link href="/">Home</Nav.Link>
+  <Nav.Link href="/profile">Wine Journal</Nav.Link>
+  <Nav.Link href="/create-account">Create Account</Nav.Link>
+  <Nav.Link href="/login">Login</Nav.Link>
+  <Nav.Link href="/recommendation">Wine Recommendation</Nav.Link>
+</Nav>
+</Navbar> */}
