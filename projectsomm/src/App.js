@@ -434,7 +434,7 @@ function App() {
         <div>
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <a className="navbar-brand" href="/">
-            <img src={"../public/Wine-o.png"} width="30" height="30" class="d-inline-block align-top" alt=""/>
+            <img src={require('./smlogo.png')} width="50" height="50" class="d-inline-block align-top" alt=""/>
               SommBot
             </a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
