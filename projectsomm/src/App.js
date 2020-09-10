@@ -9,6 +9,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Nav } from 'react-bootstrap';
 import smimg from './sommbot-bckgrnd.png'
 
+
 function Homepage() {
     return (
       <div
@@ -17,13 +18,7 @@ function Homepage() {
       </div>
     )
 }
-{/* <div>
-        Discover your next favorite wine with SommBot!
-        <img src={require('./sommbot-bckgrnd.png')} className="img-fluid" alt="Robot with wine bottles"></img>
-      </div> */}
-{/* <div
-style={{ backgroundImage: `url('/sommbot-bckgrnd.png')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center center'}}>
-</div> */}
+
 
 function About() {
     return <div> Wine recommendation app </div>
@@ -117,8 +112,6 @@ function Login(props) {
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
-  const [loggedIn, setLoggedIn] = React.useState(false)
-  const [userLog, setUserLog] = React.useState('')
 
   // const LogoutUser = (e) => {
   //   e.preventDefault()
@@ -145,34 +138,9 @@ function Login(props) {
     })
     .then(res => res.json())
     .then(data => {
-      if (data.status === 'success') {
-        setLoggedIn(true);
-        setUserLog(data.status);
-        console.log(loggedIn);
-        console.log("1logged-in?");
-        console.log(userLog);
-        alert(data.message);
-      }
-      else {
-        alert(data.message);
-      }
+      alert(data.message)
     })
   }
-
-  if (loggedIn === true) {
-    localStorage.setItem('userLog', userLog)
-    console.log('2does it save to local storage?')
-    console.log(localStorage.getItem('userLog'))
-    return <Redirect to='/recommendation'/>
-  }
-
-  if (localStorage.getItem('userLog')) {
-    console.log('if logged in already')
-    console.log(localStorage.getItem('userLog'))
-    alert('Already logged in!')
-    return <Redirect to='/recommendation'/>
-  }
-
 
   return (
     <form>
@@ -210,7 +178,6 @@ function Login(props) {
           </div>
           <div className="row justify-content-center">
             <button className="btn btn-outline-primary" onClick={VerifyUser}> Log In </button>
-            {/* <button className="btn-outline-primary" onClick={LogoutUser}> Log Out </button> */}
           </div>
       </div>
     </form>
@@ -293,7 +260,6 @@ function UserProfile(props) {
   const [wineData, setWineData] = React.useState([])
 
   React.useEffect(() => {
-    // fetch('/api/user-profile')
     fetch('/api/latlng-wines')
     .then(res => res.json())
     .then((data) => {
@@ -305,27 +271,18 @@ function UserProfile(props) {
       }
       setSavedRecs(recs)
       setWineData(data)
-      console.log("wineData state:", data)
+      // console.log("wineData state:", data)
     })
-  }, [localStorage.getItem('userLog')])
+  }, [])
 
-  function AccessProfile() {
-    if (localStorage.getItem('userLog')) {
-    return (
-        <div>
-          <ul>
-            {savedRecs}
-          </ul>
-          <MapContainer data={wineData}/>
-        </div>
-      )
-    } else {
-        alert('You need to log in for this feature')
-        return <Redirect to='/login'/>
-  }}
-
-  return <AccessProfile/>
-
+  return (
+      <div>
+        <ul>
+          {savedRecs}
+        </ul>
+        <MapContainer data={wineData}/>
+      </div>
+    )
 }
 
 
@@ -423,8 +380,8 @@ function Recommendation(props) {
                     "min_price": minPrice,
                     "max_price": maxPrice,
                     "descriptor": descriptor}
-    console.log(filters)
-    console.log(JSON.stringify(filters))
+    // console.log(filters)
+    // console.log(JSON.stringify(filters))
 
     fetch('/api/recommendation', {
       method: 'POST',
@@ -455,66 +412,92 @@ function Recommendation(props) {
           <ul>
             {recList}
           </ul>
-          <button onClick={SaveRec}>Save this</button>
+          <button onClick={SaveRec} className="btn btn-outline-primary">Save this</button>
         </div>
       )
     }
     {
       return (
         <form onSubmit={WineFilters} id="wine-search" method="POST">
-          <div>
-            Please pick your year of production range(optional):
-            Min:
-            <select value={minYear} onChange={(e) => setMinYear(e.target.value)} id="min-year" name="min-year">
-              <option value="1970">1970</option>
-              <option value="1980">1980</option>
-              <option value="1990">1990</option>
-              <option value="2000">2000</option>
-            </select>
-            Max:
-            <select value={maxYear} onChange={(e) => setMaxYear(e.target.value)} id="max-year" name="max-year">
-              <option value="2017">2017</option>
-              <option value="2015">2015</option>
-              <option value="2013">2013</option>
-              <option value="2011">2011</option>
-            </select>
+          <div className="row justify-content-around">
+            <div className="col-6"><p>Please pick your year of production range(optional):</p>
+              <div className="form-row justify-content-around">
+                <div className="form-group col-md-3">
+                  <label htmlFor="min-year">
+                    Min:
+                  </label>
+                    <select className="form-control" value={minYear} onChange={(e) => setMinYear(e.target.value)} id="min-year" name="min-year">
+                      <option value="1970">1970</option>
+                      <option value="1980">1980</option>
+                      <option value="1990">1990</option>
+                      <option value="2000">2000</option>
+                    </select>
+                </div>
+                <div className="form-group col-md-3">
+                  <label htmlFor="max-year">
+                  Max:
+                  </label>
+                    <select className="form-control" value={maxYear} onChange={(e) => setMaxYear(e.target.value)} id="max-year" name="max-year">
+                      <option value="2017">2017</option>
+                      <option value="2015">2015</option>
+                      <option value="2013">2013</option>
+                      <option value="2011">2011</option>
+                    </select>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            Please pick your price range:
-            Min:
-            <select value={minPrice} onChange={(e) => setMinPrice(e.target.value)} id="min-price" name="min-price">
-              <option value="0">0</option>
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-              <option value="40">40</option>
-              <option value="50">50</option>
-              <option value="60">60</option>
-              <option value="70">70</option>
-            </select>
-            Max:
-            <select value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} id="max-price" name="max-price">
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="30">30</option>
-              <option value="40">40</option>
-              <option value="50">50</option>
-              <option value="60">60</option>
-              <option value="70">70</option>
-              <option value="1000">1000</option>
-            </select>
+          <div className="row justify-content-around">
+            <div className="col-6"><p>Please pick your price range:</p>
+              <div className="form-row justify-content-around">
+                <div className="form-group col-md-3">
+                  <label htmlFor="min-price">
+                    Min:
+                  </label>
+                    <select className="form-control" value={minPrice} onChange={(e) => setMinPrice(e.target.value)} id="min-price" name="min-price">
+                      <option value="0">0</option>
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="40">40</option>
+                      <option value="50">50</option>
+                      <option value="60">60</option>
+                      <option value="70">70</option>
+                    </select>
+                </div>
+                <div className="form-group col-md-3">
+                  <label htmlFor="max-price">
+                  Max:
+                  </label>
+                    <select className="form-control" value={maxPrice} onChange={(e) => setMaxPrice(e.target.value)} id="max-price" name="max-price">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="40">40</option>
+                      <option value="50">50</option>
+                      <option value="60">60</option>
+                      <option value="70">70</option>
+                      <option value="1000">1000</option>
+                    </select>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            Please choose descriptors for your dream wine:
-            <Select
-            value={options.filter(obj => descriptor.includes(obj.value))}
-            options = {options}
-            onChange={filterCheckbox}
-            isMulti
-            isClearable
-            />
+          <div className="form-row justify-content-around">
+            <div className="form-group col-md-6">
+              <label><p>Please choose descriptors for your dream wine:</p></label>
+                <Select
+                value={options.filter(obj => descriptor.includes(obj.value))}
+                options = {options}
+                onChange={filterCheckbox}
+                isMulti
+                isClearable
+                />
+            </div>
           </div>
-          <input type="submit"/>
+          <div className="form-row justify-content-around">
+            <input type="submit" className="btn btn-outline-primary"/>
+          </div>
         </form>
       )
     }
@@ -533,12 +516,7 @@ function App() {
     fetch('/api/logout')
     .then(res => res.json())
     .then((data) => {
-    if (data.status === 'error') {
       alert(data.message)
-    } else {
-      localStorage.removeItem('userLog');
-      alert(data.message)
-    }
     })
   };
 
@@ -621,13 +599,4 @@ function App() {
 
 export default App;
 
-{/* <Navbar bg="light" variant="light">
-<Navbar.Brand href='/'>SommBot</Navbar.Brand>
-<Nav className="mr-auto">
-  <Nav.Link href="/">Home</Nav.Link>
-  <Nav.Link href="/profile">Wine Journal</Nav.Link>
-  <Nav.Link href="/create-account">Create Account</Nav.Link>
-  <Nav.Link href="/login">Login</Nav.Link>
-  <Nav.Link href="/recommendation">Wine Recommendation</Nav.Link>
-</Nav>
-</Navbar> */}
+
