@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+
+p.bubble {
+	position: relative;
+	width: 300px;
+	text-align: center;
+	line-height: 1.4em;
+	margin: 40px auto;
+	background-color: transparent;
+	border: 3px solid #333;
+	border-radius: 30px;
+	font-family: sans-serif;
+	padding: 20px;
+	font-size: large;
+}
+
+p.bubble:before,
+p.bubble:after {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+
+p.speech:before {
+	left: 30px;
+	bottom: -50px;
+	border: 20px solid;
+	border-color: #333 transparent transparent transparent;
+}
+
+p.speech:after {
+	left: 38px;
+	bottom: -30px;
+	border: 10px solid;
+	border-color: transparent transparent transparent transparent;
+}
+

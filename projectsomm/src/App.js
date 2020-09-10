@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -12,9 +13,15 @@ import smimg from './sommbot-bckgrnd.png'
 
 function Homepage() {
     return (
-      <div
-        style={{ backgroundImage: `url(${smimg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh'}}>
-          <h3>Discover your next favorite wine with SommBot!</h3>
+      <div className="container-fluid" style={{ backgroundImage: `url(${smimg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh'}}>
+          <div className="row justify-content-center">
+            <div className="col-4">
+                <div className="col-4">
+                    <p className="bubble speech">Discover your next favorite wine with SommBot!</p>
+                    {/* <h3>Discover your next favorite wine with SommBot!</h3> */}
+                </div>
+            </div>
+          </div>
       </div>
     )
 }
@@ -447,6 +454,7 @@ function Recommendation(props) {
               </div>
             </div>
           </div>
+          <hr className="col-5"/>
           <div className="row justify-content-around">
             <div className="col-6"><p>Please pick your price range:</p>
               <div className="form-row justify-content-around">
@@ -483,6 +491,7 @@ function Recommendation(props) {
               </div>
             </div>
           </div>
+          <hr className="col-5"/>
           <div className="form-row justify-content-around">
             <div className="form-group col-md-6">
               <label><p>Please choose descriptors for your dream wine:</p></label>
