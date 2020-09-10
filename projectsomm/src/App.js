@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
@@ -7,11 +7,23 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Navbar from 'react-bootstrap/Navbar';
 import { Nav } from 'react-bootstrap';
+import smimg from './sommbot-bckgrnd.png'
 
 function Homepage() {
-    return <div> Welcome to my site </div>
+    return (
+      <div
+        style={{ backgroundImage: `url(${smimg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh'}}>
+          <h3>Discover your next favorite wine with SommBot!</h3>
+      </div>
+    )
 }
-
+{/* <div>
+        Discover your next favorite wine with SommBot!
+        <img src={require('./sommbot-bckgrnd.png')} className="img-fluid" alt="Robot with wine bottles"></img>
+      </div> */}
+{/* <div
+style={{ backgroundImage: `url('/sommbot-bckgrnd.png')`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center center'}}>
+</div> */}
 
 function About() {
     return <div> Wine recommendation app </div>
@@ -45,28 +57,57 @@ function CreateAccount(props) {
   };
   return (
     <form>
-      <label htmlFor="email">Email:</label>
-      <input
-        id="email"
-        type="text"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}>
-      </input>
-      <label htmlFor="name">Name:</label>
-      <input
-        id="name"
-        type="text"
-        onChange={(e) => setName(e.target.value)}
-        value={name}>
-      </input>
-      <label htmlFor="password">Password:</label>
-      <input
-        id="password"
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}>
-      </input>
-      <button onClick={CreateUser}> Create Profile </button>
+      <div className="container">
+          <div className="form-group">
+            <div className="form-row justify-content-center">
+              <div className="col-5">
+                <label htmlFor="exampleInputEmail1">Email Address</label>
+                  <input
+                    id="exampleInputEmail1"
+                    className="form-control"
+                    type="email"
+                    placeholder="Enter email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}>
+                  </input>
+                  <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="form-row justify-content-center">
+              <div className="col-5">
+                <label htmlFor="exampleInputName1">Name</label>
+                  <input
+                    id="exampleInputName1"
+                    className="form-control"
+                    type="text"
+                    placeholder="Enter name"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={name}>
+                  </input>
+              </div>
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="form-row justify-content-center">
+              <div className="col-5">
+                <label htmlFor="exampleInputPassword1">Password</label>
+                  <input
+                    id="exampleInputPassword1"
+                    type="password"
+                    className="form-control"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}>
+                  </input>
+              </div>
+            </div>
+          </div>
+          <div className="row justify-content-center">
+            <button className="btn btn-outline-primary" onClick={CreateUser}> Create Profile </button>
+          </div>
+      </div>
     </form>
   )
 }
@@ -76,15 +117,17 @@ function Login(props) {
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const [loggedIn, setLoggedIn] = React.useState(false)
+  const [userLog, setUserLog] = React.useState('')
 
-  const LogoutUser = (e) => {
-    e.preventDefault()
-    fetch('/api/logout')
-    .then(res => res.json())
-    .then((data) => {
-      alert(data.message)
-    })
-  };
+  // const LogoutUser = (e) => {
+  //   e.preventDefault()
+  //   fetch('/api/logout')
+  //   .then(res => res.json())
+  //   .then((data) => {
+  //     alert(data.message)
+  //   })
+  // };
 
   const VerifyUser = (e) => {
     e.preventDefault()
@@ -97,32 +140,79 @@ function Login(props) {
       headers: {
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify(inputs)
     })
     .then(res => res.json())
-    .then((data) => {
-      alert(data.message)
+    .then(data => {
+      if (data.status === 'success') {
+        setLoggedIn(true);
+        setUserLog(data.status);
+        console.log(loggedIn);
+        console.log("1logged-in?");
+        console.log(userLog);
+        alert(data.message);
+      }
+      else {
+        alert(data.message);
+      }
     })
-  };
+  }
+
+  if (loggedIn === true) {
+    localStorage.setItem('userLog', userLog)
+    console.log('2does it save to local storage?')
+    console.log(localStorage.getItem('userLog'))
+    return <Redirect to='/recommendation'/>
+  }
+
+  if (localStorage.getItem('userLog')) {
+    console.log('if logged in already')
+    console.log(localStorage.getItem('userLog'))
+    alert('Already logged in!')
+    return <Redirect to='/recommendation'/>
+  }
+
 
   return (
     <form>
-      <label htmlFor="email">Email:</label>
-      <input
-        id="email"
-        type="text"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}>
-      </input>
-      <label htmlFor="password">Password:</label>
-      <input
-        id="password"
-        type="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}>
-      </input>
-      <button onClick={VerifyUser}> Log In </button>
-      <button onClick={LogoutUser}> Log Out </button>
+      <div className="container">
+          <div className="form-group">
+            <div className="form-row justify-content-center">
+              <div className="col-5">
+                <label htmlFor="exampleInputEmail1">Email Address</label>
+                  <input
+                    id="exampleInputEmail1"
+                    className="form-control"
+                    type="email"
+                    placeholder="Enter email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}>
+                  </input>
+                  <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+              </div>
+            </div>
+          </div>
+          <div className="form-group">
+            <div className="form-row justify-content-center">
+              <div className="col-5">
+                <label htmlFor="exampleInputPassword1">Password</label>
+                  <input
+                    id="exampleInputPassword1"
+                    type="password"
+                    className="form-control"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}>
+                  </input>
+              </div>
+            </div>
+          </div>
+          <div className="row justify-content-center">
+            <button className="btn btn-outline-primary" onClick={VerifyUser}> Log In </button>
+            {/* <button className="btn-outline-primary" onClick={LogoutUser}> Log Out </button> */}
+          </div>
+      </div>
     </form>
   )
 }
@@ -217,16 +307,25 @@ function UserProfile(props) {
       setWineData(data)
       console.log("wineData state:", data)
     })
-  }, [])
+  }, [localStorage.getItem('userLog')])
 
-  return (
-    <div>
-      <ul>
-        {savedRecs}
-      </ul>
-      <MapContainer data={wineData}/>
-    </div>
-  )
+  function AccessProfile() {
+    if (localStorage.getItem('userLog')) {
+    return (
+        <div>
+          <ul>
+            {savedRecs}
+          </ul>
+          <MapContainer data={wineData}/>
+        </div>
+      )
+    } else {
+        alert('You need to log in for this feature')
+        return <Redirect to='/login'/>
+  }}
+
+  return <AccessProfile/>
+
 }
 
 
@@ -270,7 +369,6 @@ function Recommendation(props) {
     {value: 'rose', label: 'rose'},
     {value: 'asparagus', label: 'asparagus'},
     {value: 'pepper', label: 'pepper'},
-    {value: 'vanilla', label: 'vanilla'},
     {value: 'black', label: 'black'},
     {value: 'red', label: 'red'},
     {value: 'plum', label: 'plum'},
@@ -429,15 +527,30 @@ function Recommendation(props) {
 
 
 function App() {
+
+  const LogoutUser = (e) => {
+    e.preventDefault()
+    fetch('/api/logout')
+    .then(res => res.json())
+    .then((data) => {
+    if (data.status === 'error') {
+      alert(data.message)
+    } else {
+      localStorage.removeItem('userLog');
+      alert(data.message)
+    }
+    })
+  };
+
   return (
       <Router>
         <div>
-          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <nav className="navbar navbar-expand-lg navbar-light" style={{backgroundColor: "#faf2f2"}}>
             <a className="navbar-brand" href="/">
-            <img src={require('./smlogo.png')} width="50" height="50" class="d-inline-block align-top" alt=""/>
+            <img src={require('./smlogo.png')} width="50" height="50" className="d-inline-block align-top" alt="wine glass with mustache"/>
               SommBot
             </a>
-            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button className="navbar-toggler" type="button" dataToggle="collapse" dataTarget="#navbarSupportedContent" ariaControls="navbarSupportedContent" ariaExpanded="false" ariaLabel="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -472,6 +585,11 @@ function App() {
                     <Link to="/recommendation"> Wine Recommendation </Link>
                   </a>
                 </li>
+                <li className="nav-item">
+                  <a className="nav-link">
+                    <Link to="/" onClick={LogoutUser}> Logout </Link>
+                  </a>
+                </li>
               </ul>
             </div>
           </nav>
@@ -494,7 +612,6 @@ function App() {
             <Route path="/">
               <Homepage />
             </Route>
-
           </Switch>
           </div>
       </Router>
