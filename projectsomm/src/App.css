@@ -38,7 +38,7 @@
 }
 
 
-.glowButton {
+/* .glowButton {
   position: relative;
   margin: auto;
   padding-right: 1.5rem;
@@ -75,5 +75,32 @@
   border-radius: 30px;
   background-image: linear-gradient(170deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
   pointer-events: none;
+} */
+
+.button {
+  width: 170px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+  color: #000;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-left: 30px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.button-1 {
+  background-color: transparent;
+  box-shadow: 0 0 10px 0 #be10b6 inset, 0 0 20px 2px #78234b;
+  border: 2px solid #78234b;
+  border-radius: 50px;
+  -webkit-transition: all 0.15s ease-in-out;
+  transition: all 0.15s ease-in-out;
+  color: #0d0d0e;
+}
+.button-1:hover {
+  border: 1px solid #78234b;
 }
 

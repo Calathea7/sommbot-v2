@@ -93,18 +93,17 @@ def wine_markers():
 
     if 'email' in session:
         profile_data = crud.get_user_profile_info(email=session['email'])
-    print("profile_data:", profile_data)
+    # print("profile_data:", profile_data)
 
     wines = []
 
     for i in range(len(profile_data)):
         wines.append(profile_data[i][0])
-        print("first_append:",profile_data[i][0] )
         wines.append(profile_data[i][1])
         wines.append(profile_data[i][2])
         wines.append(profile_data[i][3])
         wines.append(profile_data[i][4])
-    print("wines_list:", wines)
+    # print("wines_list:", wines)
 
     wines_data = []
 
@@ -125,9 +124,7 @@ def wine_markers():
                 'variety': output[0].variety
                 }
         )
-        # refractor output into a dictionary
-        # or save each latlng in a dictionary with wine title as key
-    print("wines_data:", wines_data)
+    # print("wines_data:", wines_data)
     return jsonify(wines_data)
 
 

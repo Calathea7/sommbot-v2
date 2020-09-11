@@ -16,8 +16,8 @@ function Homepage() {
   const history = useHistory()
 
     return (
-      <div className="container-fluid" style={{ backgroundImage: `url(${smimg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh'}}>
-        <button className="glowButton btn" onClick = {()=>{history.push('/recommendation')}}>Enter Here</button>
+      <div className="container-fluid" onClick = {()=>{history.push('/recommendation')}} style={{ backgroundImage: `url(${smimg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh'}}>
+        {/* <button className="button button-1 btn" onClick = {()=>{history.push('/recommendation')}}>Enter Here</button> */}
       </div>
     )
 }
@@ -103,7 +103,9 @@ function CreateAccount(props) {
             </div>
           </div>
           <div className="row justify-content-center">
-            <button className="btn btn-outline-primary" onClick={CreateUser}> Create Profile </button>
+            <div className="col-3">
+              <button className="btn btn-outline-primary" onClick={CreateUser}> Create Profile </button>
+            </div>
           </div>
       </div>
     </form>
@@ -115,6 +117,7 @@ function Login(props) {
 
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
+  const history = useHistory()
 
   // const LogoutUser = (e) => {
   //   e.preventDefault()
@@ -179,8 +182,13 @@ function Login(props) {
               </div>
             </div>
           </div>
-          <div className="row justify-content-center">
-            <button className="btn btn-outline-primary" onClick={VerifyUser}> Log In </button>
+          <div className="row justify-content-md-center">
+            <div className="col-2">
+              <button className="btn btn-outline-primary" onClick={VerifyUser}> Log In </button>
+            </div>
+            <div className="col-2">
+              <button className="btn btn-outline-primary" onClick = {()=>{history.push('/create-account')}}> Create Profile </button>
+            </div>
           </div>
       </div>
     </form>
@@ -190,13 +198,13 @@ function Login(props) {
 
 function MapContainer(props) {
   const [options, setOptions] = React.useState({
-    center: { lat: 38.297539, lng: -122.286865},
-    zoom: 10
+    center: { lat: 43.73333, lng: 7.41667},
+    zoom: 5
   });
 
   const mapDimensions = {
-    width: '200px',
-    height: '800px'
+    width: '800px',
+    height: '400px'
   }
 
   function placeMarkers(map, data) {
@@ -208,6 +216,12 @@ function MapContainer(props) {
           lng: parseFloat(data[i]['lng'])
         },
         title: data[i]['wine_title'],
+      });
+      wineMarker.addListener('click', function() {
+        infoWindow.open(map, wineMarker);
+      });
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: data[i]['wine_title']
       })
     }
   }
@@ -227,7 +241,7 @@ function MapContainer(props) {
 
 function MapBuilder(props) {
   const [myMap, setMyMap] = React.useState();
-  const options = { center: {lat: 38.297539, lng: -122.286865}, zoom: 10 };
+  const options = { center: {lat: 43.73333, lng: 7.41667}, zoom: 5 };
   const mapRef = React.useRef();
 
   React.useEffect(() => {
@@ -250,7 +264,7 @@ function MapBuilder(props) {
     <div
       id="google-map-div"
       ref={mapRef}
-      style={{ width: '400px', height: '400px' }}
+      style={{ width: '800px', height: '400px' }}
     >
     </div>
   )
@@ -270,7 +284,13 @@ function UserProfile(props) {
       // console.log(data.length)
       // console.log("wine_title:", data[0]['wine_title'])
       for (let i = 0; i < data.length; i++) {
-        recs.push(<PostRecItem rec={data[i]['wine_title']}/>);
+        recs.push(<PostCardItem title={data[i]['wine_title']}
+                                winery={data[i]['winery']}
+                                variety={data[i]['variety']}
+                                country={data[i]['country']}
+                                points={data[i]['points']}
+                                price={data[i]['price']}
+                                />);
       }
       setSavedRecs(recs)
       setWineData(data)
@@ -279,20 +299,44 @@ function UserProfile(props) {
   }, [])
 
   return (
-      <div>
-        <h3>Your saved recommendations:</h3>
-        <ul className="list-group list-group-flush">
-          {savedRecs}
-        </ul>
+      <div className="container">
+        <div className="row justify-content-md-center">
+        {/* <div style={{textAlign:"center"}}> */}
+          <h3>Your saved recommendations:</h3>
+        {/* </div> */}
+        </div>
+        <div className="row justify-content-md-center">
         <MapContainer data={wineData}/>
+        </div>
+          {savedRecs}
       </div>
     )
 }
 
+function PostCardItem(props) {
+  return (
+      <div className="row justify-content-md-center">
+        <div className="col-sm-6">
+        <div className="card border-info mb-3" style={{maxWidth:'18rem'}}>
+        <div className="card-body">
+          <h5 className="card-title">{props.title}</h5>
+            <div className="card-text">
+              <li className="list-group-item"><b>Winery</b>: {props.winery}</li>
+              <li className="list-group-item"><b>Grape Variety</b>: {props.variety}</li>
+              <li className="list-group-item"><b>Country</b>: {props.country}</li>
+              <li className="list-group-item"><b>Critic Points</b>: {props.points}</li>
+              <li className="list-group-item"><b>Price($)</b>: {props.price}</li>
+            </div>
+        </div>
+        </div>
+        </div>
+      </div>
+  )
+};
 
 function PostRecItem(props) {
   return <li className="list-group-item">{props.rec}</li>
-}
+};
 
 function Recommendation(props) {
 
@@ -411,12 +455,14 @@ function Recommendation(props) {
   function WineResult() {
     if (showResult) {
       return (
-        <div>
+        <div className="row justify-content-around">
+        <div className="col-6">
           <h3>Here are some wines that match your criteria:</h3>
           <ul className="list-group list-group-flush">
             {recList}
           </ul>
           <button onClick={SaveRec} className="btn btn-outline-primary">Save this</button>
+        </div>
         </div>
       )
     }
@@ -424,7 +470,9 @@ function Recommendation(props) {
       return (
         <form onSubmit={WineFilters} id="wine-search" method="POST">
           <div className="row justify-content-around">
-            <div className="col-6"><p>Please pick your year of production range(optional):</p>
+            <div className="col-6">
+            <div style={{textAlign:"center"}}><h3>Wine Recommendation Form</h3></div><br></br>
+              <p>Please pick your year of production range(optional):</p>
               <div className="form-row justify-content-around">
                 <div className="form-group col-md-3">
                   <label htmlFor="min-year">
@@ -535,12 +583,13 @@ function NavBar() {
       <span className="navbar-toggler-icon"></span>
     </button>
     <div className="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul className="navbar-nav mr-auto">
-        <li className="nav-item active">
+      {/* <ul className="navbar-nav mr-auto"> */}
+      <ul className="nav justify-content-end">
+        {/* <li className="nav-item active">
           <a className="nav-link"><span className="sr-only">(current)
             <Link to="/"> Home </Link>
           </span></a>
-        </li>
+        </li> */}
         <li className="nav-item">
           <a className="nav-link">
             <Link to="/about" className="nav-item"> About </Link>
@@ -554,11 +603,6 @@ function NavBar() {
         <li className="nav-item">
           <a className="nav-link">
             <Link to="/profile" > Profile </Link>
-          </a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link">
-            <Link to="/create-account"> Create Account </Link>
           </a>
         </li>
         <li className="nav-item">
