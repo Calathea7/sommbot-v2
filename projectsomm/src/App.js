@@ -308,16 +308,21 @@ function UserProfile(props) {
         <div className="row justify-content-md-center">
         <MapContainer data={wineData}/>
         </div>
+        <br></br>
+        <div className="row justify-content-md-center">
+        <div className="card-group">
           {savedRecs}
+        </div>
+        </div>
       </div>
     )
 }
 
+// style={{maxWidth:'22rem'}}
 function PostCardItem(props) {
   return (
-      <div className="row justify-content-md-center">
         <div className="col-sm-6">
-        <div className="card border-info mb-3" style={{maxWidth:'18rem'}}>
+        <div className="card border-info mb-6">
         <div className="card-body">
           <h5 className="card-title">{props.title}</h5>
             <div className="card-text">
@@ -330,7 +335,6 @@ function PostCardItem(props) {
         </div>
         </div>
         </div>
-      </div>
   )
 };
 
