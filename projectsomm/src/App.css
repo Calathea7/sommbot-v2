@@ -37,39 +37,43 @@
   }
 }
 
-p.bubble {
-	position: relative;
-	width: 300px;
-	text-align: center;
-	line-height: 1.4em;
-	margin: 40px auto;
-	background-color: transparent;
-	border: 3px solid #333;
-	border-radius: 30px;
-	font-family: sans-serif;
-	padding: 20px;
-	font-size: large;
-}
 
-p.bubble:before,
-p.bubble:after {
-	content: ' ';
-	position: absolute;
-	width: 0;
-	height: 0;
+.glowButton {
+  position: relative;
+  margin: auto;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+  line-height: 3rem;
+  text-decoration: none;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: linear-gradient(160deg, #7d0633, #b52b65);
+  border-radius: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  box-shadow: 0 0 60px 2px #b52b65, 0.5rem 0.5rem 30px #13092d;
+  -webkit-transition: box-shadow 0.6s;
+  transition: box-shadow 0.6s;
 }
-
-p.speech:before {
-	left: 30px;
-	bottom: -50px;
-	border: 20px solid;
-	border-color: #333 transparent transparent transparent;
+.glowButton:hover {
+  box-shadow: 0 0 0 2px #b52b65, 0.5rem 0.5rem 30px #13092d;
 }
-
-p.speech:after {
-	left: 38px;
-	bottom: -30px;
-	border: 10px solid;
-	border-color: transparent transparent transparent transparent;
+.glowButton:after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  bottom: 2px;
+  left: 2px;
+  border-radius: 30px;
+  background-image: linear-gradient(170deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
+  pointer-events: none;
 }
 

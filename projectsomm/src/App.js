@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Router, Route, Link, Switch, Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Switch, useHistory, Redirect} from 'react-router-dom';
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -12,16 +12,12 @@ import smimg from './sommbot-bckgrnd.png'
 
 
 function Homepage() {
+
+  const history = useHistory()
+
     return (
       <div className="container-fluid" style={{ backgroundImage: `url(${smimg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh'}}>
-          <div className="row justify-content-center">
-            <div className="col-4">
-                <div className="col-4">
-                    <p className="bubble speech">Discover your next favorite wine with SommBot!</p>
-                    {/* <h3>Discover your next favorite wine with SommBot!</h3> */}
-                </div>
-            </div>
-          </div>
+        <button className="glowButton btn" onClick = {()=>{history.push('/recommendation')}}>Enter Here</button>
       </div>
     )
 }
@@ -284,7 +280,8 @@ function UserProfile(props) {
 
   return (
       <div>
-        <ul>
+        <h3>Your saved recommendations:</h3>
+        <ul className="list-group list-group-flush">
           {savedRecs}
         </ul>
         <MapContainer data={wineData}/>
@@ -294,7 +291,7 @@ function UserProfile(props) {
 
 
 function PostRecItem(props) {
-  return <li>{props.rec}</li>
+  return <li className="list-group-item">{props.rec}</li>
 }
 
 function Recommendation(props) {
@@ -415,8 +412,8 @@ function Recommendation(props) {
     if (showResult) {
       return (
         <div>
-          Here are some wines that match your criteria:
-          <ul>
+          <h3>Here are some wines that match your criteria:</h3>
+          <ul className="list-group list-group-flush">
             {recList}
           </ul>
           <button onClick={SaveRec} className="btn btn-outline-primary">Save this</button>
@@ -517,8 +514,7 @@ function Recommendation(props) {
   )
   }
 
-
-function App() {
+function NavBar() {
 
   const LogoutUser = (e) => {
     e.preventDefault()
@@ -530,70 +526,82 @@ function App() {
   };
 
   return (
+    <nav className="navbar navbar-expand-lg navbar-light" style={{backgroundColor: "#faf2f2"}}>
+    <a className="navbar-brand" href="/">
+    <img src={require('./smlogo.png')} width="50" height="50" className="d-inline-block align-top" alt="wine glass with mustache"/>
+      SommBot
+    </a>
+    <button className="navbar-toggler" type="button" dataToggle="collapse" dataTarget="#navbarSupportedContent" ariaControls="navbarSupportedContent" ariaExpanded="false" ariaLabel="Toggle navigation">
+      <span className="navbar-toggler-icon"></span>
+    </button>
+    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul className="navbar-nav mr-auto">
+        <li className="nav-item active">
+          <a className="nav-link"><span className="sr-only">(current)
+            <Link to="/"> Home </Link>
+          </span></a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link">
+            <Link to="/about" className="nav-item"> About </Link>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link">
+            <Link to="/login"> Login </Link>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link">
+            <Link to="/profile" > Profile </Link>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link">
+            <Link to="/create-account"> Create Account </Link>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link">
+            <Link to="/recommendation"> Wine Recommendation </Link>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link">
+            <Link to="/" onClick={LogoutUser}> Logout </Link>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  )
+}
+
+
+function App() {
+
+  return (
       <Router>
         <div>
-          <nav className="navbar navbar-expand-lg navbar-light" style={{backgroundColor: "#faf2f2"}}>
-            <a className="navbar-brand" href="/">
-            <img src={require('./smlogo.png')} width="50" height="50" className="d-inline-block align-top" alt="wine glass with mustache"/>
-              SommBot
-            </a>
-            <button className="navbar-toggler" type="button" dataToggle="collapse" dataTarget="#navbarSupportedContent" ariaControls="navbarSupportedContent" ariaExpanded="false" ariaLabel="Toggle navigation">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item active">
-                  <a className="nav-link"><span className="sr-only">(current)
-                    <Link to="/"> Home </Link>
-                  </span></a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">
-                    <Link to="/about" className="nav-item"> About </Link>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">
-                    <Link to="/login"> Login </Link>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">
-                    <Link to="/profile" > Profile </Link>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">
-                    <Link to="/create-account"> Create Account </Link>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">
-                    <Link to="/recommendation"> Wine Recommendation </Link>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link">
-                    <Link to="/" onClick={LogoutUser}> Logout </Link>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </nav>
           <Switch>
             <Route path="/about">
+              <NavBar/>
               <About />
             </Route>
             <Route path="/login">
+              <NavBar/>
               <Login />
             </Route>
             <Route path="/create-account">
+              <NavBar/>
               <CreateAccount />
             </Route>
             <Route path="/profile">
+              <NavBar/>
               <UserProfile />
             </Route>
             <Route path="/recommendation">
+              <NavBar/>
               <Recommendation />
             </Route>
             <Route path="/">
