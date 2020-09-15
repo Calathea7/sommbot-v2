@@ -3,11 +3,6 @@ import {BrowserRouter as Router, Route, Link, Switch, useHistory, Redirect} from
 import Select from 'react-select';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Navbar from 'react-bootstrap/Navbar';
-import { Nav } from 'react-bootstrap';
 import smimg from './sommbot-bckgrnd.png'
 
 
