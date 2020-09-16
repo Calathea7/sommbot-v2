@@ -31,7 +31,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/Calathea7/sommbot-v2/">
-    <img src="https://github.com/Calathea7/sommbot-v2/blob/e2462fe4299ac276224ac31aed83de758812d3fd/src/logo.svg" alt="Logo" width="80" height="80">
+    <img src="https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/smlogo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">SommBot</h3>
@@ -108,7 +108,8 @@ git clone https://github.com/Calathea7/sommbot-v2/
 2. Get a free Google API key:
 [https://developers.google.com/maps/documentation/javascript/get-api-key](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
-3. (Disregard if running in Node env) Create and activate a virtual environment inside your SommBot directory:
+3. (Disregard if running in Node env)
+Create and activate a virtual environment inside your SommBot directory:
 ```
 virtualenv env
 source env/bin/activate
@@ -133,7 +134,7 @@ python3 main.py
 #### Landing Page
 From the landing page the user is directed straight to the wine recommendation form utilizing React’s useHistory hook.
 
-![alt text](projectsomm/src/landing-page.gif "SommBot landing page")
+![alt text](https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/landing-page.gif "SommBot landing page")
 
 #### Wine Recommendation Form
 After selecting the desired wine descriptors and submitting the form, the wine filter data is converted into JSON format and sent using JavaScript fetch request to my backend web framework, Flask. I then use SQLAlchemy to query my custom API to best match the wines with user-chosen descriptors.
@@ -204,5 +205,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 [license-url]: https://github.com/Calathea7/repo/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/anastasia-correa/
-[product-screenshot]: https://github.com/Calathea7/sommbot-v2/blob/e2462fe4299ac276224ac31aed83de758812d3fd/src/logo.svg
+[product-screenshot]: https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/sommbot-bckgrnd.png
 
