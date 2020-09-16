@@ -31,15 +31,13 @@
 <br />
 <p align="center">
   <a href="https://github.com/Calathea7/sommbot-v2/">
-    <img src="https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/smlogo.png" alt="Logo" width="80" height="80">
+    <img src="https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/smlogo.png" alt="Logo" width="200" height="200">
   </a>
 
-  <h3 align="center">SommBot</h3>
+  <h2 align="center">SommBot</h2>
 
   <p align="center">
     Discover your next dream wine with SommBot!
-    <br />
-    <a href="https://github.com/Calathea7/sommbot-v2/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://youtu.be/u27db6cwLjA">View Demo</a>
@@ -121,9 +119,7 @@ Future features will include:
 * Wine recommendations based on food pairing
 
 <!-- GETTING STARTED -->
-## Getting Started
-
-To get a local copy up and running follow these simple steps.
+## To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
@@ -138,7 +134,7 @@ To get a local copy up and running follow these simple steps.
 git clone https://github.com/Calathea7/sommbot-v2/
 ```
 2. Get a free Google API key:
-[https://developers.google.com/maps/documentation/javascript/get-api-key](https://developers.google.com/maps/documentation/javascript/get-api-key)
+[Google Maps API](https://developers.google.com/maps/documentation/javascript/get-api-key)
 
 3. (Disregard if running in Node env)
 Create and activate a virtual environment inside your SommBot directory:
