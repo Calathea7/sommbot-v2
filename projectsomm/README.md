@@ -31,7 +31,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/Calathea7/sommbot-v2/">
-    <img src="projectsomm/src/smlogo.png" alt="Logo" width="80" height="80">
+    <img src="https://github.com/Calathea7/sommbot-v2/blob/e2462fe4299ac276224ac31aed83de758812d3fd/src/logo.svg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">SommBot</h3>
@@ -105,13 +105,27 @@ To get a local copy up and running follow these simple steps.
 ```sh
 git clone https://github.com/Calathea7/sommbot-v2/
 ```
-2. Install requirements.txt
+2. Get a free Google API key:
+[https://developers.google.com/maps/documentation/javascript/get-api-key](https://developers.google.com/maps/documentation/javascript/get-api-key)
+
+3. (Disregard if running in Node env) Create and activate a virtual environment inside your SommBot directory:
+```
+virtualenv env
+source env/bin/activate
+```
+4. Install requirements.txt
 ```sh
 pip3 install -r requirements.txt
 ```
-3. Get a free Google API key: [https://developers.google.com/maps/documentation/javascript/get-api-key](https://developers.google.com/maps/documentation/javascript/get-api-key)
-
-
+5. Set up the database:
+```
+createdb sommbot
+python3 model.py
+```
+6. Run the app:
+```
+python3 main.py
+```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -190,5 +204,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 [license-url]: https://github.com/Calathea7/repo/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/anastasia-correa/
-[product-screenshot]: projectsomm/src/sommbot-bckgrnd.png
+[product-screenshot]: https://github.com/Calathea7/sommbot-v2/blob/e2462fe4299ac276224ac31aed83de758812d3fd/src/logo.svg
 
