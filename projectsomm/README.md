@@ -85,8 +85,40 @@ SommBot is a single-page wine recommendation web app built using full-stack tech
 
 * Google Maps API
 * Geocoder
-* Custom Wine API (built by me)
+* Custom Wine API (built by Anastasia)
 
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+#### Landing Page
+From the landing page the user is directed straight to the wine recommendation form utilizing React’s useHistory hook.
+
+![alt text](https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/landing-page.gif "SommBot landing page")
+
+#### Wine Recommendation Form
+After selecting the desired wine descriptors and submitting the form, the wine filter data is converted into JSON format and sent using JavaScript fetch request to my backend web framework, Flask. I then use SQLAlchemy to query my custom API to best match the wines with user-chosen descriptors.
+
+![alt text](https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/wine-form.gif "SommBot wine form")
+
+#### Save the Recommendation
+When the response is sent back from my server, the user is matched with five wines that best reflect their selected flavor profile. If they are logged in (which I track using Flask sessions), the user can also save the recommendation to their profile for future reference.
+
+![alt text](https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/save-rec.gif "SommBot save recommendation")
+
+#### User Profile
+In addition to displaying saved wine recommendations, the user’s profile page uses Google Maps API to asynchronously display a world map with markers indicating the location of saved wines. This is achieved by fetching wine data from the database and passing it as props to multiple React components.
+
+![alt text](https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/user-profile.gif "SommBot user profile")
+
+<!-- ROADMAP -->
+## Roadmap
+
+Future features will include:
+
+* Ability to rate and comment on the saved wine recommendations
+* Show buying options for recommended wines
+* Wine recommendations based on food pairing
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -127,39 +159,6 @@ python3 model.py
 ```
 python3 main.py
 ```
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-#### Landing Page
-From the landing page the user is directed straight to the wine recommendation form utilizing React’s useHistory hook.
-
-![alt text](https://github.com/Calathea7/sommbot-v2/blob/master/projectsomm/src/landing-page.gif "SommBot landing page")
-
-#### Wine Recommendation Form
-After selecting the desired wine descriptors and submitting the form, the wine filter data is converted into JSON format and sent using JavaScript fetch request to my backend web framework, Flask. I then use SQLAlchemy to query my custom API to best match the wines with user-chosen descriptors.
-
-![alt text](projectsomm/src/wine-form.gif "SommBot wine form")
-
-#### Save the Recommendation
-When the response is sent back from my server, the user is matched with five wines that best reflect their selected flavor profile. If they are logged in (which I track using Flask sessions), the user can also save the recommendation to their profile for future reference.
-
-![alt text](projectsomm/src/save-rec.gif "SommBot save recommendation")
-
-#### User Profile
-In addition to displaying saved wine recommendations, the user’s profile page uses Google Maps API to asynchronously display a world map with markers indicating the location of saved wines. This is achieved by fetching wine data from the database and passing it as props to multiple React components.
-
-![alt text](projectsomm/src/user-profile.gif "SommBot user profile")
-
-<!-- ROADMAP -->
-## Roadmap
-
-Future features will include:
-
-* Ability to rate and comment on the saved wine recommendations
-* Show buying options for recommended wines
-* Wine recommendations based on food pairing
-
 
 
 <!-- CONTRIBUTING -->
